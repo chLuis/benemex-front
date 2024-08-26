@@ -72,7 +72,7 @@ export default function ListProducts({ data }: { data: Producto[] }) {
   };
 
   return (
-    <div className="col-span-12 grid grid-cols-12 gap-x-3 px-6 pt-2 max-h-screen">
+    <div className="col-span-12 grid grid-cols-12 gap-x-3 px-6 pt-2 min-h-screen">
       <div className="col-span-12 md:col-span-4 lg:col-span-3 md:px-4 pb-6">
         <Accordion type="multiple" className="w-full">
           <AccordionItem value="item-0">

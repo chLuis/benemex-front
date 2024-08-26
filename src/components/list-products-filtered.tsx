@@ -5,9 +5,9 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 
 export default function ProductsFiltered({data}:{data:Producto[]}){
-  if(data?.length === 0) return <div className="col-span-12 text-center min-h-screen">No se encontraron productos</div>
+  if(data?.length === 0) return <div className="col-span-12 text-center ">No se encontraron productos</div>
   return (
-    <div className="p-1 col-span-12 md:col-span-8 lg:col-span-9 grid grid-cols-12 gap-3 min-h-screen max-h-screen h-full overflow-y-auto content-start z-0 pb-4">
+    <div className="p-1 col-span-12 md:col-span-8 lg:col-span-9 grid grid-cols-12 gap-3 min-h-screen h-full content-start z-0 pb-4">
         {data?.map((producto: Producto) => (
 
             <Card key={producto._id} className="col-span-12 border-none hover:shadow-black/70 lg:col-span-6 xl:col-span-3 animate-fade-in group hover:border-black duration-200 overflow-clip">
