@@ -73,7 +73,7 @@ export const User = () => {
   }
   
   return (
-    <div className="flex justify-center gap-2 items-center h-20 text-3xl px-4">
+    <div className="flex justify-center gap-2 items-center h-20 text-3xl">
       {!token ? (
         <Dialog>
           <DialogTrigger>

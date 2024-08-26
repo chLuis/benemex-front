@@ -1,7 +1,6 @@
 "use client"
 import * as React from "react"
 import Link from "next/link"
-//import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils"
 import {
   NavigationMenu,
@@ -17,8 +16,6 @@ import { LuJapaneseYen, LuPersonStanding, LuShirt } from "react-icons/lu"
 import { GiPowderBag } from "react-icons/gi";
 import { BiSolidMovie } from "react-icons/bi";
 import { FaRedhat } from "react-icons/fa";
-
-
 
 
 export default function NavbarNavigation () {

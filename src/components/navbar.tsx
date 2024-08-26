@@ -1,13 +1,15 @@
-import NavbarImage from "./navbar-image";
-import NavbarNavigation from "./navbar-navigation";
-import NavbarProfile from "./navbar-profile";
-import { Toaster } from "./ui/sonner";
+import NavbarImage from "@/components/navbar-image";
+import { NavbarMobile } from "@/components/navbar-mobile";
+import NavbarNavigation from "@/components/navbar-navigation";
+import NavbarProfile from "@/components/navbar-profile";
+import { Toaster } from "@/components/ui/sonner";
 
 export default function Navbar() {
   return (
-    <nav className="flex flex-col md:flex-row items-center justify-center flex-nowrap">
+    <nav className="relative flex md:flex-row items-center justify-center flex-nowrap">
       <NavbarImage />
-      <div className="flex flex-col sm:flex-row items-center w-full justify-between">
+      <NavbarMobile />
+      <div className="hidden md:flex flex-col sm:flex-row items-center w-full justify-between">
         <NavbarNavigation />
         <NavbarProfile />
       </div>
