@@ -28,7 +28,8 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "./ui/button";
-import { LuChevronRightCircle, LuMinus, LuSearch } from "react-icons/lu";
+import { LuChevronRightCircle, LuMinus, LuSearch, LuX } from "react-icons/lu";
+import { Badge } from "./ui/badge";
 
 export default function ListProducts({ data }: { data: Producto[] }) {
   const [productosFiltrados, setProductosFiltrados] =
@@ -41,8 +42,9 @@ export default function ListProducts({ data }: { data: Producto[] }) {
 
   const handleSearch = (e: string) => {
     setValueText(e);
+    const textSearch = e.toLowerCase();
     const filtrarProductos = data.filter((producto) => {
-      const matchesText = producto.nombre.toLowerCase().includes(e.toLowerCase());
+      const matchesText = producto.nombre.toLowerCase().includes(textSearch) || producto.descripcion.toLowerCase().includes(textSearch);
       const matchesPrice = producto.precio >= rangeMin && producto.precio <= rangeMax;
       const matchesCategory = valueCategoria === "Todos" || producto.categoria === valueCategoria;
       return matchesText && matchesPrice && matchesCategory;
@@ -61,10 +63,10 @@ export default function ListProducts({ data }: { data: Producto[] }) {
     setProductosFiltrados(filtrarProductos);
   };
 
-  const handleMinMaxPrice = () => {
+  const handleMinMaxPrice = (min: number, max: number) => {
     const filtrarProductos = data.filter((producto) => {
       const matchesCategory = valueCategoria === "Todos" || producto.categoria === valueCategoria;
-      const matchesPrice = producto.precio >= rangeMin && producto.precio <= rangeMax;
+      const matchesPrice = producto.precio >= min && producto.precio <= max;
       const matchesText = producto.nombre.toLowerCase().includes(valueText.toLowerCase());
       return matchesCategory && matchesPrice && matchesText;
     });
@@ -191,7 +193,7 @@ export default function ListProducts({ data }: { data: Producto[] }) {
                     onChange={(e) => setRangeMax(Number(e.target.value))}
                     className="w-full"
                   />
-                  <LuChevronRightCircle onClick={handleMinMaxPrice} className="w-6 h-6 min-h-6 min-w-6 stroke-2 hover:stroke-green-500 duration-200 cursor-pointer"/>
+                  <LuChevronRightCircle onClick={() => handleMinMaxPrice(rangeMin, rangeMax)} className="w-6 h-6 min-h-6 min-w-6 stroke-2 hover:stroke-green-500 duration-200 cursor-pointer"/>
                 </div>
               </div>
                 {/* <div>
@@ -265,6 +267,52 @@ export default function ListProducts({ data }: { data: Producto[] }) {
             </AccordionContent>
           </AccordionItem> */}
         </Accordion>
+        <div className="mt-2 flex flex-col gap-2">
+          {rangeMin !== 50 || rangeMax !== 1000000 || valueCategoria !== "Todos" || valueText !== ""
+            ? <span className="animate-fade-in">Filtros aplicados</span>
+            : null}
+        {rangeMin === 50 
+            ? null
+            : <Badge onClick={() => {
+                      setRangeMin(50)
+                      handleMinMaxPrice(50, rangeMax)
+                      document.getElementById("collapse-filter")?.click();
+                      }} className="flex justify-center items-center gap-2 w-fit cursor-pointer hover:bg-neutral-500 duration-150 group animate-fade-in">
+                {rangeMin}<LuX className="text-sm group-hover:rotate-90 duration-100"/>
+              </Badge>
+          }
+
+          {rangeMax === 1000000 
+            ? null
+            : <Badge onClick={() => {
+                      setRangeMax(1000000)
+                      handleMinMaxPrice(rangeMin, 1000000)
+                      document.getElementById("collapse-filter")?.click();
+                      }} className="flex justify-center items-center gap-2 w-fit cursor-pointer hover:bg-neutral-500 duration-150 group animate-fade-in">
+                {rangeMax}<LuX className="text-sm group-hover:rotate-90 duration-100"/>
+              </Badge>
+          }
+
+            {valueCategoria === "Todos" 
+              ? null 
+              : <Badge onClick={() => {
+                onChangeCategoria("Todos")
+                document.getElementById("collapse-category")?.click();
+                }} className="flex justify-center items-center gap-2 w-fit cursor-pointer hover:bg-neutral-500 duration-150 group animate-fade-in">
+                  {valueCategoria}<LuX className="text-sm group-hover:rotate-90 duration-100"/>
+                </Badge>}
+                {valueText === "" 
+              ? null 
+              : <Badge onClick={() => {
+                  setValueText("")
+                  handleSearch("")
+                  document.getElementById("collapse-search")?.click();
+                }
+              } className="flex justify-center items-center gap-2 w-fit cursor-pointer hover:bg-neutral-500 duration-150 group animate-fade-in">
+                  {valueText}<LuX className="text-sm group-hover:rotate-90 duration-100"/>
+                </Badge>}
+
+        </div>
       </div>
       <ProductsFiltered data={productosFiltrados} />
     </div>
